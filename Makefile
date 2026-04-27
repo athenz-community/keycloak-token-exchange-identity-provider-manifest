@@ -1,0 +1,6 @@
+build:
+	@mvn clean package \
+		-Dmaven.resolver.transport=wagon \
+		-Dmaven.wagon.http.ssl.insecure=true \
+		-Dmaven.wagon.http.ssl.allowall=true
+
