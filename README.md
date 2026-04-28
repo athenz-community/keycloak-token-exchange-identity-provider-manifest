@@ -49,6 +49,7 @@ kubectl -n athenz exec deployment/athenz-zts-server -c athenz-zts-server -- sh -
 
 > [!NOTE]
 > Make sure to have the `jwks_uri` fetchable from your server. you can always to `curl` inside your pod/server etc
+> - Format found here: https://github.com/AthenZ/athenz/blob/master/servers/zts/src/test/resources/provider.config.json
 
 Even if the jar is mounted on the Athenz server, the athenz does not use the jar file unless you let it know to trust it.
 
@@ -61,17 +62,13 @@ metadata:
   namespace: athenz
 data:
   providers.json: |
-    {
-      "providers": [
-        {
-          "name": "keycloak-local",
-          "issuer": "https://localhost:9089/realms/local-openwebui",
-          "jwks_uri": "http://host.docker.internal:9090/realms/local-openwebui/protocol/openid-connect/certs",
-          "provider_class": "com.mlajkim.athenz.KeycloakTokenProvider",
-          "audience": "local-open-webui"
-        }
-      ]
-    }
+    [
+      {
+        "issuerUri": "https://localhost:9089/realms/local-openwebui",
+        "jwksUri": "http://host.docker.internal:9090/realms/local-openwebui/protocol/openid-connect/certs",
+        "providerClassName": "com.mlajkim.athenz.KeycloakTokenProvider"
+      }
+    ]
 EOF
 
 # configmap/zts-providers-config created
