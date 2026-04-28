@@ -4,7 +4,7 @@ To create a jar plugin, do the following:
 
 ```sh
 git clone git clone https://github.com/athenz-community/keycloak-token-exchange-identity-provider-manifest.git keycloak_jar
-make -c keycloak_jar build
+make -C keycloak_jar build
 ```
 
 then:
@@ -18,7 +18,7 @@ ls -al keycloak_jar/target/keycloak*.jar
 To write the built `.jar` as k8s configmap (aka cm)
 
 ```sh
-make -c keycloak_jar deploy-as-k8s-cm
+make -C keycloak_jar deploy-as-k8s-cm
 
 # ...
 # --- Summary ----------------------
@@ -36,7 +36,7 @@ make -c keycloak_jar deploy-as-k8s-cm
 To mount the configmap created above, you need to modify the Athenz ZTS server deployment. You can do it by yourself, but you can also run the following command:
 
 ```sh
-make -c keycloak_jar apply-as-k8s-cm-volume-mount
+make -C keycloak_jar apply-as-k8s-cm-volume-mount
 ```
 
 Then check yourself with ls command:
