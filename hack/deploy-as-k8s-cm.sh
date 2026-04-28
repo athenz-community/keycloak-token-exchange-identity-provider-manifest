@@ -62,7 +62,7 @@ RESTART=${INPUT_RESTART:-Y}
 
 # 4. Deployment Name
 if [[ "$RESTART" =~ ^[Yy]$ ]]; then
-  read -p "👉 Athenz ZTS Server Deployment Name in ns [$NAMESPACE]? [Hit enter for default: athenz-ZTS-server]: " INPUT_DEPLOY
+  read -p "👉 Athenz ZTS deployment name? [Hit enter for default: $DEFAULT_DEPLOY]: " INPUT_DEPLOY
   ZTS_DEPLOYMENT=${INPUT_DEPLOY:-$DEFAULT_DEPLOY}
 fi
 
