@@ -1,3 +1,5 @@
+build-n-deploy: build deploy-as-k8s-cm
+
 build:
 	@mvn clean package \
 		-Dmaven.resolver.transport=wagon \
