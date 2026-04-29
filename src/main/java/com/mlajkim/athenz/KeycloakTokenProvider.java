@@ -13,7 +13,7 @@ public class KeycloakTokenProvider implements TokenExchangeIdentityProvider {
         System.out.println(">>> [Keycloak-Plugin] Extracting identity from token...");
         Object preferredUsername = token.getClaim("preferred_username");
         if (preferredUsername != null) {
-            return "user." + preferredUsername.toString(); 
+            return "user." + preferredUsername.toString();
         }
         
         Object sub = token.getClaim("sub");
@@ -22,11 +22,16 @@ public class KeycloakTokenProvider implements TokenExchangeIdentityProvider {
 
     @Override
     public String getTokenAudience(OAuth2Token token) {
-        System.out.println(">>> [Keycloak-Plugin] Bypassing audience check...");
-        return "sys.auth.zts";
-        
+        Object sub = token.getClaim("sub");
+        if (sub == null) {
+            return "";
+        }
+
+        return "user.athenz_admin";
+
+        // return "user." + sub.toString() + "ai-agent";
         // System.out.println(">>> [Keycloak-Plugin] Extracting audience...");
-        // Object aud = token.getClaim("aud");
+        // Object aud = token.getClaim("aud");Object sub = token.getClaim("sub");
         // if (aud instanceof List && !((List<?>) aud).isEmpty()) {
         //     return ((List<?>) aud).get(0).toString();
         // } else if (aud != null) {
