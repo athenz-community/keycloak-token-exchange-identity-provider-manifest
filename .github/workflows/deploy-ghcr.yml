@@ -1,3 +1,6 @@
+# For permission settings, everything is documented here
+# https://github.com/athenz-community/keycloak-token-exchange-identity-provider-manifest/pull/2
+
 name: Build and Push Plugin to GHCR
 
 on:
@@ -40,7 +43,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.DEPLOY_GHCR_SECRET }}
 
       # 4. Determine tags based on event type (PR number or latest)
       - name: Extract metadata (tags, labels) for Docker
@@ -49,9 +52,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${| env.IMAGE_NAME }}
           tags: |
-            # PR일 경우 pr123 형식으로 태그 생성
+            # If PR, add prXXX tag
             type=ref,event=pr,prefix=pr
-            # main 브랜치일 경우 latest 태그 생성
+            # If main branch, add latest tag
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
 
       # 5. Docker image build and push to GHCR
