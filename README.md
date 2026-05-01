@@ -68,6 +68,12 @@ Finally restart ZTS server:
 kubectl -n athenz rollout restart deployment athenz-zts-server
 ```
 
+Check if class, and its config are well written and understood by ZTS:
+
+```sh
+# 12:34:56.233 [main] INFO  c.y.a.c.s.util.config.ConfigManager - configuration "athenz.zts.oauth_provider_config_file" created
+```
+
 # Docs
 
 For more details, please refer to [docs](./docs/README.md).
