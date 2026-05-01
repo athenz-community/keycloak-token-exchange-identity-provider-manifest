@@ -7,16 +7,10 @@ spec:
         - name: USER_CLASSPATH
           value: "/opt/athenz/zts/lib/jars/*:/usr/lib/jars/*:/athenz/plugins/*"
         volumeMounts:
-        - name: keycloak-plugin-vol
-          mountPath: /opt/athenz/zts/lib/jars/keycloak-token-provider.jar
-          subPath: keycloak-token-provider.jar
         - name: providers-json-vol
           mountPath: /opt/athenz/zts/conf/providers.json
           subPath: providers.json
       volumes:
-      - name: keycloak-plugin-vol
-        configMap:
-          name: keycloak-token-provider-jar
       - name: providers-json-vol
         configMap:
           name: zts-providers-config

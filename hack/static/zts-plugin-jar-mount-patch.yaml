@@ -1,0 +1,23 @@
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: fetch-keycloak-plugin
+        image: ghcr.io/mlajkim/keycloak-token-exchange-identity-provider-manifest:pr1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: athenz-plugins
+          mountPath: /athenz/plugins
+
+      containers:
+      - name: athenz-zts-server
+        env:
+        - name: USER_CLASSPATH
+          value: "/opt/athenz/zts/lib/jars/*:/usr/lib/jars/*:/athenz/plugins/*"
+        volumeMounts:
+        - name: athenz-plugins
+          mountPath: /athenz/plugins
+          
+      volumes:
+      - name: athenz-plugins
+        emptyDir: {}
