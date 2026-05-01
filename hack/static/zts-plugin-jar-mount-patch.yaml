@@ -3,11 +3,8 @@ spec:
     spec:
       initContainers:
       - name: fetch-keycloak-plugin
-        image: ghcr.io/athenz-community/keycloak-token-exchange-identity-provider-manifest:latest
+        image: ghcr.io/athenz-community/keycloak-token-exchange-identity-provider-manifest:pr5
         imagePullPolicy: Always
         volumeMounts:
         - name: athenz-plugins
           mountPath: /opt/athenz/zts/lib/jars
-      volumes:
-      - name: athenz-plugins
-        emptyDir: {}

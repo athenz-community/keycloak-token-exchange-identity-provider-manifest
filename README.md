@@ -12,7 +12,7 @@ make -C keycloak_jar apply-plugin-patch
 Then see if a jar `keycloak-token-provider.jar` is mounted:
 
 ```sh
-kubectl -n athenz exec deployment/athenz-zts-server -c athenz-zts-server -- sh -c "ls -al /athenz/plugins"
+kubectl -n athenz exec deployment/athenz-zts-server -c athenz-zts-server -- sh -c "ls -al /opt/athenz/zts/lib/jars"
 
 # total 83164
 # drwxrwxrwx 2 root root     4096 May  1 09:12 .
