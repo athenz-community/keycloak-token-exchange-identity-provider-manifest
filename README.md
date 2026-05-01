@@ -5,7 +5,7 @@ To mount this plugin as a jar for your Athenz ZTS, do the following
 To create a jar plugin, do the following:
 
 ```sh
-git clone git clone https://github.com/athenz-community/keycloak-token-exchange-identity-provider-manifest.git keycloak_jar
+git clone git@github.com:athenz-community/keycloak-token-exchange-identity-provider-manifest.git keycloak_jar
 make -C keycloak_jar apply-plugin-patch
 ```
 
