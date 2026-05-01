@@ -12,13 +12,9 @@ make -C keycloak_jar apply-plugin-patch
 Then see if a jar `keycloak-token-provider.jar` is mounted:
 
 ```sh
-kubectl -n athenz exec deployment/athenz-zts-server -c athenz-zts-server -- sh -c "ls -al /opt/athenz/zts/lib/jars"
+kubectl -n athenz exec deployment/athenz-zts-server -c athenz-zts-server -- sh -c "ls -al /opt/athenz/zts/lib/jars | grep keycloak"
 
-# total 83164
-# drwxrwxrwx 2 root root     4096 May  1 09:12 .
-# drwxr-xr-x 3 root root     4096 May  1 09:12 ..
-# -rw-r--r-- 1 root root 68546007 Apr  4 06:38 athenz-plugins.jar
-# -rw-r--r-- 1 root root 16601716 May  1 09:12 keycloak-token-provider.jar
+# -rw-r--r-- 1 root   root      3237 May  1 14:26 keycloak-token-provider.jar
 ```
 
 > [!NOTE]
@@ -52,6 +48,20 @@ Then let the ZTS server to mount the config created above:
 
 ```sh
 make -C keycloak_jar apply-providers-config-patch
+```
+
+Check if config is mounted:
+
+```sh
+kubectl -n athenz exec deployment/athenz-zts-server -c athenz-zts-server -- sh -c "cat /opt/athenz/zts/conf/providers.json"
+
+# [
+#   {
+#     "issuerUri": "https://localhost:9089/realms/local-openwebui",
+#     "jwksUri": "http://host.docker.internal:9090/realms/local-openwebui/protocol/openid-connect/certs",
+#     "providerClassName": "com.mlajkim.athenz.KeycloakTokenProvider"
+#   }
+# ]
 ```
 
 Then give setting
