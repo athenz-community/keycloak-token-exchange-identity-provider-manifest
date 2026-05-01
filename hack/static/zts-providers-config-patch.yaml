@@ -3,9 +3,6 @@ spec:
     spec:
       containers:
       - name: athenz-zts-server
-        env:
-        - name: USER_CLASSPATH
-          value: "/opt/athenz/zts/lib/jars/*:/usr/lib/jars/*:/athenz/plugins/*"
         volumeMounts:
         - name: providers-json-vol
           mountPath: /opt/athenz/zts/conf/providers.json
