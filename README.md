@@ -1,50 +1,24 @@
 # keycloak-token-exchange-identity-provider-manifest
 
+To mount this plugin as a jar for your Athenz ZTS, do the following
+
 To create a jar plugin, do the following:
 
 ```sh
 git clone git clone https://github.com/athenz-community/keycloak-token-exchange-identity-provider-manifest.git keycloak_jar
-make -C keycloak_jar build
+make -C keycloak_jar apply-plugin-patch
 ```
 
-then:
+Then see if a jar `keycloak-token-provider.jar` is mounted:
 
 ```sh
-ls -al keycloak_jar/target/keycloak*.jar
+kubectl -n athenz exec deployment/athenz-zts-server -c athenz-zts-server -- sh -c "ls -al /athenz/plugins"
 
-# -rw-r--r--  1 user  staff  16601809 Apr 27 16:25 target/keycloak-token-provider-1.0.0.jar
-```
-
-To write the built `.jar` as k8s configmap (aka cm)
-
-```sh
-make -C keycloak_jar deploy-as-k8s-cm
-
-# ...
-# --- Summary ----------------------
-# Namespace             : athenz
-# ConfigMap             : keycloak-token-provider-jar
-# Athenz ZTS Deployment : skipped
-# Jar File              : target/original-keycloak-token-provider-1.0.0.jar
-# Restart?              : n
-# ------------------------------------
-
-# 📦 Updating ConfigMap...
-# configmap/keycloak-token-provider-jar created
-```
-
-To mount the configmap created above, you need to modify the Athenz ZTS server deployment. You can do it by yourself, but you can also run the following command:
-
-```sh
-make -C keycloak_jar apply-as-k8s-cm-volume-mount
-```
-
-Then check yourself with ls command:
-
-```sh
-kubectl -n athenz exec deployment/athenz-zts-server -c athenz-zts-server -- sh -c "ls -al /opt/athenz/zts/lib/jars | grep keycloak"
-
-# -rw-r--r-- 1 root   root      3330 Apr 27 16:55 keycloak-token-provider.jar
+# total 83164
+# drwxrwxrwx 2 root root     4096 May  1 09:12 .
+# drwxr-xr-x 3 root root     4096 May  1 09:12 ..
+# -rw-r--r-- 1 root root 68546007 Apr  4 06:38 athenz-plugins.jar
+# -rw-r--r-- 1 root root 16601716 May  1 09:12 keycloak-token-provider.jar
 ```
 
 > [!NOTE]
@@ -74,6 +48,12 @@ EOF
 # configmap/zts-providers-config created
 ```
 
+Then let the ZTS server to mount the config created above:
+
+```sh
+make -C keycloak_jar apply-providers-config-patch
+```
+
 Then give setting
 
 ```sh
@@ -87,3 +67,7 @@ Finally restart ZTS server:
 ```sh
 kubectl -n athenz rollout restart deployment athenz-zts-server
 ```
+
+# Docs
+
+For more details, please refer to [docs](./docs/README.md).
